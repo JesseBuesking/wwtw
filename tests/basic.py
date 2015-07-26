@@ -15,7 +15,7 @@ class BasicTests(unittest.TestCase):
     def test_resets_empty(self):
         sw = StopWatch()
         sw.start()
-        time.sleep(.01)
+        time.sleep(.001)
         sw.stop()
         sw.reset()
 
@@ -26,12 +26,12 @@ class BasicTests(unittest.TestCase):
     def test_times_correctly(self):
         sw = StopWatch()
         sw.start()
-        time.sleep(.01)
+        time.sleep(.001)
         sw.stop()
 
         elapsed = sw.elapsed()
         self.assertAlmostEqual(
-            timedelta(seconds=.01).total_seconds(),
+            timedelta(seconds=.001).total_seconds(),
             elapsed.total_seconds(),
             3)
 
@@ -68,3 +68,9 @@ class BasicTests(unittest.TestCase):
 
         sw._start = datetime(2012, 01, 01, 10, 30, 00)
         sw._stop = datetime(2012, 01, 02, 10, 30, 10, 100000)
+
+    def test_with_statement(self):
+        with StopWatch() as sw:
+            time.sleep(.001)
+
+        self.assertEqual("00:00:00.001", sw.pretty(3))

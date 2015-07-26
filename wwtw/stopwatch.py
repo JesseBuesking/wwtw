@@ -8,6 +8,13 @@ class StopWatch(object):
         self._stop = None
         self._elapsed = None
 
+    def __enter__(self):
+        self.start()
+        return self
+
+    def __exit__(self, *args):
+        self.stop()
+
     def start(self):
         self._start = datetime.utcnow()
 
