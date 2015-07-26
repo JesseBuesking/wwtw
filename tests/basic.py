@@ -1,7 +1,7 @@
 import unittest
 import time
 from datetime import datetime, timedelta
-from wwtw import StopWatch
+from wwtw import StopWatch, stopwatch
 
 
 class BasicTests(unittest.TestCase):
@@ -69,8 +69,19 @@ class BasicTests(unittest.TestCase):
         sw._start = datetime(2012, 01, 01, 10, 30, 00)
         sw._stop = datetime(2012, 01, 02, 10, 30, 10, 100000)
 
+    def test_stopwatch_name(self):
+        sw = StopWatch("sw")
+        self.assertEqual("sw", sw.name())
+
     def test_with_statement(self):
         with StopWatch() as sw:
             time.sleep(.001)
 
         self.assertEqual("00:00:00.001", sw.pretty(3))
+
+    @unittest.skip("verifying that it prints")
+    def test_function_decorator(self):
+        @stopwatch("test_function_decorator")
+        def func():
+            time.sleep(.001)
+        func()

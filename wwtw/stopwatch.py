@@ -3,7 +3,8 @@ from datetime import datetime
 
 class StopWatch(object):
 
-    def __init__(self):
+    def __init__(self, name=None):
+        self._name = name
         self._start = None
         self._stop = None
         self._elapsed = None
@@ -14,6 +15,9 @@ class StopWatch(object):
 
     def __exit__(self, *args):
         self.stop()
+
+    def name(self):
+        return self._name
 
     def start(self):
         self._start = datetime.utcnow()
@@ -56,4 +60,17 @@ class StopWatch(object):
         if days > 0:
             hms = "{}d {}".format(days, hms)
 
+        if self._name is not None:
+            hms = "{}: {}".format(self._name, hms)
+
         return hms
+
+
+def stopwatch(name=None, precision=0):
+    def decorator(func):
+        def func_wrapper(*args, **kwargs):
+            with StopWatch(name) as sw:
+                func(*args, **kwargs)
+            print(sw.pretty(precision))
+        return func_wrapper
+    return decorator
