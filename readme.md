@@ -8,12 +8,33 @@ examples
 
 ```
 >>> import time
->>> from wwtw import StopWatch
+>>> from wwtw import StopWatch, stopwatch
 >>> sw = StopWatch()
 >>> sw.start()
 >>> time.sleep(1.1)
 >>> sw.stop()
 >>> print(sw.pretty())
+00:00:01
+```
+
+There's also the option of using the stopwatch in a ``with`` statement ...
+
+```
+>>> with StopWatch() as sw:
+...     time.sleep(1.1)
+...
+>>> print(sw.pretty())
+00:00:01
+```
+
+... or as a function decorator
+
+```
+>>> @stopwatch() # notice the decorator is all lowercase
+... def myfunc():
+...     time.sleep(1.1)
+...
+>>> myfunc()
 00:00:01
 ```
 
@@ -24,8 +45,8 @@ You can pass an integer to output the format in a higher precision. For example:
 00:00:01.100
 ```
 
-If the stopwatch runs for more than a day, the output will look similar to the
-following:
+If the stopwatch runs for more than a day, the output will start with ``Nd``,
+where ``N`` is the number of days:
 
 ```
 >>> sw.reset()
@@ -36,7 +57,8 @@ following:
 1d 00:00:11.100
 ```
 
-Of course you can get access to the raw ``timedelta`` object:
+Of course you can get access to the raw ``timedelta`` object from a
+``StopWatch`` instance:
 
 ```
 >>> sw.reset()
