@@ -26,7 +26,7 @@ class StopWatch(object):
         self._stop = datetime.utcnow()
 
     def elapsed(self):
-        if self._elapsed is None:
+        if self._elapsed is None and self._stop is not None:
             self._elapsed = self._stop - self._start
 
         return self._elapsed
@@ -38,6 +38,11 @@ class StopWatch(object):
 
     def pretty(self, precision=0):
         assert precision >= 0, "expecting precision >= 0"
+        if self.elapsed() is None:
+            if self._name is None:
+                return 'n/a'
+            else:
+                return '{}: n/a'.format(self._name)
         seconds = int(self.elapsed().total_seconds())
         days = int(seconds / 86400)
         if days > 0:
