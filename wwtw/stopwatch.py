@@ -28,6 +28,9 @@ class StopWatch(object):
     def elapsed(self):
         if self._elapsed is None and self._stop is not None:
             self._elapsed = self._stop - self._start
+        elif self._elapsed is None and self._stop is None:
+            # just get the time up to now
+            return datetime.utcnow() - self._start
 
         return self._elapsed
 
