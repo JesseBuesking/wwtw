@@ -41,12 +41,13 @@ class StopWatch(object):
 
     def pretty(self, precision=0):
         assert precision >= 0, "expecting precision >= 0"
-        if self.elapsed() is None:
+        _elapsed = self.elapsed()
+        if _elapsed is None:
             if self._name is None:
                 return 'n/a'
             else:
                 return '{}: n/a'.format(self._name)
-        seconds = int(self.elapsed().total_seconds())
+        seconds = int(_elapsed.total_seconds())
         days = int(seconds / 86400)
         if days > 0:
             seconds = seconds - (days * 86400)
@@ -59,11 +60,11 @@ class StopWatch(object):
             fmt = '{{:.{precision}f}}'.format(
                 precision='{:02d}'.format(precision))
 
-            hms = "{:02d}:{:02d}:{:02d}{}".format(
+            hms = "{:02d}:{:02d}:{:02d}.{}".format(
                 hours,
                 minutes,
                 seconds,
-                fmt.format(self.elapsed().microseconds / 1000000.).lstrip('0'))
+                fmt.format(_elapsed.microseconds / 1000000.).split('.')[1])
 
         if days > 0:
             hms = "{}d {}".format(days, hms)
