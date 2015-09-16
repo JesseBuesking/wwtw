@@ -29,11 +29,11 @@ class BasicTests(unittest.TestCase):
         time.sleep(.001)
         sw.stop()
 
-        elapsed = sw.elapsed()
         self.assertAlmostEqual(
             timedelta(seconds=.001).total_seconds(),
-            elapsed.total_seconds(),
+            sw.elapsed.total_seconds(),
             3)
+        self.assertEqual(1, sw.elapsed_ms)
 
     def test_pretty_seconds(self):
         sw = StopWatch()

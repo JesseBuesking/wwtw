@@ -25,6 +25,7 @@ class StopWatch(object):
     def stop(self):
         self._stop = datetime.utcnow()
 
+    @property
     def elapsed(self):
         if self._elapsed is None and self._stop is not None:
             self._elapsed = self._stop - self._start
@@ -34,6 +35,10 @@ class StopWatch(object):
 
         return self._elapsed
 
+    @property
+    def elapsed_ms(self):
+        return int(self.elapsed.total_seconds() * 1000)
+
     def reset(self):
         self._start = None
         self._stop = None
@@ -41,7 +46,7 @@ class StopWatch(object):
 
     def pretty(self, precision=0):
         assert precision >= 0, "expecting precision >= 0"
-        _elapsed = self.elapsed()
+        _elapsed = self.elapsed
         if _elapsed is None:
             if self._name is None:
                 return 'n/a'
