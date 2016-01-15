@@ -44,6 +44,10 @@ class StopWatch(object):
         self._stop = None
         self._elapsed = None
 
+    def restart(self):
+        self.reset()
+        self.start()
+
     def pretty(self, precision=0):
         assert precision >= 0, "expecting precision >= 0"
         _elapsed = self.elapsed
@@ -80,11 +84,17 @@ class StopWatch(object):
         return hms
 
 
-def stopwatch(name=None, precision=0):
+def stopwatch(name=None, precision=0, out=None):
+    # default the output to print (stdout)
+    if out is None:
+        def out(x):
+            print(x)
+
     def decorator(func):
         def func_wrapper(*args, **kwargs):
             with StopWatch(name) as sw:
                 func(*args, **kwargs)
             print(sw.pretty(precision))
         return func_wrapper
+
     return decorator
