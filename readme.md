@@ -49,8 +49,7 @@ If the stopwatch runs for more than a day, the output will start with ``Nd``,
 where ``N`` is the number of days:
 
 ```
->>> sw.reset()
->>> sw.start()
+>>> sw.restart()
 >>> time.sleep(86411.1)
 >>> sw.stop()
 >>> print(sw.pretty(3))
@@ -61,10 +60,9 @@ Of course you can get access to the raw ``timedelta`` object from a
 ``StopWatch`` instance:
 
 ```
->>> sw.reset()
->>> sw.start()
+>>> sw.restart()
 >>> time.sleep(1.1)
 >>> sw.stop()
->>> sw.elapsed()
+>>> sw.elapsed
 datetime.timedelta(0, 1, 100000)
 ```
